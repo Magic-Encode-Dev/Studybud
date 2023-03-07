@@ -1,0 +1,51 @@
+<div class="threads scroll">
+    {% for message in room_messages %}
+    {% if request.user == message.user %}
+
+    <div class="thread " style="border: 3px solid hsl(235deg 15% 30%); margin-left: 300px;">
+      <div class="thread__top">
+        <div class="thread__author">
+          <a href="{% url 'user-profile' message.user.id %}" class="thread__authorInfo">
+            <div class="avatar avatar--small">
+              <img src="{{message.user.avatar.url}}" />
+            </div>
+            <span>@{{message.user.username}}</span>
+          </a>
+          <span class="thread__date">{{message.created|timesince }} ago</span>
+        </div>
+        {% if request.user == message.user %}
+        <a href="{% url 'del_message' message.id  %}">
+          <div class="thread__delete">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>remove</title>
+              <path
+                d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z">
+              </path>
+            </svg>
+          </div>
+        </a>
+        {% endif %}
+      </div>
+      <div class="thread__details">{{message.body}} </div>
+    </div>
+    {% else %}
+    <div class="thread">
+      <div class="thread__top">
+        <div class="thread__author">
+          <a href="{% url 'user-profile' message.user.id %}" class="thread__authorInfo">
+            <div class="avatar avatar--small">
+              <img src="{{message.user.avatar.url}}" />
+            </div>
+            <span>@{{message.user.username}}</span>
+          </a>
+          <span class="thread__date">{{message.created|timesince}} ago</span>
+        </div>
+
+        <div class="thread__details">{{message.body}}</div>
+      </div>
+      <!-- end -->
+      {% endif %}
+
+      {% endfor %}
+    </div>
+  </div>
